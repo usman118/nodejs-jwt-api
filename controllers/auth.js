@@ -2,8 +2,7 @@ import userSchema from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const saltvalue = 11;
-const SECRET_KEY = "secret";
+const { SECRET_KEY, SALT_VALUE } = process.env;
 export const register = async (req, res) => {
   //   console.log(req.body);
   const { username, email, password, isAdmin } = req.body;
@@ -13,7 +12,7 @@ export const register = async (req, res) => {
   if (finduser) {
     return res.status(400).json({ message: "User already exists" });
   }
-  const salt = bcrypt.genSaltSync(saltvalue);
+  const salt = bcrypt.genSaltSync(SALT_VALUE);
   const hashpassword = bcrypt.hashSync(password, salt);
 
   const user = new userSchema({

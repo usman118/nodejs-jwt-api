@@ -8,6 +8,12 @@ A simple Node.js API with JWT authentication
 npm install
 ```
 
+## Create .env file
+
+```bash
+cp .env.example .env
+```
+
 ## Usage
 
 ```bash

@@ -2,21 +2,27 @@ import express from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.js";
+import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
+// define cors options
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsOptions));
 
-const PORT = process.env.PORT || 8080;
-// Connect to MongoDB
-const username = "usman";
-const password = "usman87626";
-const cluster = "backend.kwofzov";
-const dbname = "jwtlearn";
-
+const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_CLUSTER, MONGO_DBNAME, PORT } =
+  process.env;
 mongoose.connect(
-  `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`,
+  `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_CLUSTER}.mongodb.net/${MONGO_DBNAME}?retryWrites=true&w=majority`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -31,7 +37,6 @@ db.once("open", function () {
 // Define Routes
 app.get("/", (req, res) => {
   next(err);
-  // res.send("Dude! Nothing Here.... Goooo Somewhere Else");
 });
 app.use("/user", userRoute);
 
